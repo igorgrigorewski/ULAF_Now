@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ULAF Now</string>
+    <integer name="com_vk_sdk_AppId">5363370</integer>
+</resources>
