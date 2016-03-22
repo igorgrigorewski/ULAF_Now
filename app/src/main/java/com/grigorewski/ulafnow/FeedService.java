@@ -13,8 +13,7 @@ public abstract class FeedService {
     public static void setListView(ListView lv){
         listView = lv;
     }
-    public static void ReadFromConent(){
-        //if (!listView.equals(null)) {
+    public static void ReadFromContent(){
         ArrayList<HashMap<String, Object>> data = ContentService.getData();
 
         String[] from = {"Text"};
@@ -22,10 +21,6 @@ public abstract class FeedService {
 
         SimpleAdapter adapter = new SimpleAdapter(MainActivity.getContext(), data, R.layout.list_item, from, to);
         listView.setAdapter(adapter);
-        //}
     }
 
-    public static void WriteInContent(){
-
-    }
 }

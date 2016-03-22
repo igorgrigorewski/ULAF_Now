@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         FeedService.setListView((ListView)findViewById(R.id.listView));
-        FeedService.ReadFromConent();
+        FeedService.ReadFromContent();
     }
 
     public static Context getContext(){
