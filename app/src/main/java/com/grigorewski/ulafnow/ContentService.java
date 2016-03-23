@@ -23,31 +23,14 @@ public abstract class ContentService {
     private static final int EXTENDED = 1;
 
     private static int OWNER_IDS[] = {
-            -1118628, -116822349
+            -1118628,
+            -116822349
     };
 
-    public static ArrayList<HashMap<String, Object>> getData(){
-        final ArrayList<HashMap<String, Object>> data;
-        final ArrayList<String> listoftextposts = new ArrayList<>();
+    private static VKPostArray posts = new VKPostArray();
 
-        VKPostArray posts = getPosts();
-        Log.d("TAG", Integer.toString(posts.size()));
-        posts = SortVkPostArrays(posts, 0, posts.size() - 1);
-
-        for (int i = 0; i < posts.size(); i++) {
-            listoftextposts.add(posts.get(i).text);
-        }
-        data = new ArrayList<>(listoftextposts.size());
-        HashMap<String, Object> map;
-
-        for (String str :
-                listoftextposts) {
-            map = new HashMap<>();
-            map.put("Text", str);
-            data.add(map);
-        }
-
-        return data;
+    public static void updateData(){
+        updatePosts();
     }
 
     private static VKPostArray SortVkPostArrays(VKPostArray vkPostArray, int start, int end){
@@ -57,9 +40,9 @@ public abstract class ContentService {
         int i = start, j = end;
         int cur = i - (i - j) / 2;
         while (i < j){
-            while (i < cur && (vkPostArray.get(i).date <= vkPostArray.get(cur).date))
+            while (i < cur && (vkPostArray.get(i).date >= vkPostArray.get(cur).date))
                 i++;
-            while (j > cur &&  (vkPostArray.get(cur).date <= vkPostArray.get(j).date))
+            while (j > cur &&  (vkPostArray.get(cur).date >= vkPostArray.get(j).date))
                 j--;
             if (i < j){
                 VKApiPost temp = vkPostArray.get(i);
@@ -78,28 +61,38 @@ public abstract class ContentService {
         return vkPostArray;
     }
 
-    private static VKPostArray getPosts(){
+    private static void updatePosts(){
+        try {
+            CreateBatch(OWNER_IDS).executeWithListener(new VKBatchRequest.VKBatchRequestListener() {
+                @Override
+                public void onComplete(VKResponse[] responses) {
+                    super.onComplete(responses);
+                    for (VKResponse response : responses) {
+                        posts.addAll((VKPostArray) response.parsedModel);
+                        posts = SortVkPostArrays(posts, 0, posts.size() - 1);
+                        ArrayList<String> listofTextPosts = new ArrayList<>();
+                        ArrayList<HashMap<String, Object>> data;
 
-        final VKPostArray posts = new VKPostArray();
+                        for (int i = 0; i < posts.size(); i++) {
+                            listofTextPosts.add(posts.get(i).text);
+                        }
 
+                        data = new ArrayList<>(listofTextPosts.size());
+                        HashMap<String, Object> map;
 
-        CreateBatch(OWNER_IDS).executeWithListener(new VKBatchRequest.VKBatchRequestListener() {
-            @Override
-            public void onComplete(VKResponse[] responses) {
-                super.onComplete(responses);
-                for (VKResponse response : responses) {
-                    posts.addAll((VKPostArray) response.parsedModel);
+                        for (String str :
+                                listofTextPosts) {
+                            map = new HashMap<>();
+                            map.put("Text", str);
+                            data.add(map);
+                        }
+                        FeedService.ReadFromContent(data);
+                    }
                 }
-            }
-        });
-        /*CreateRequest(-1118628).executeSyncWithListener(new VKRequest.VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
-                posts[0] = (VKPostArray) response.parsedModel;
-            }
-        });*/
-        return posts;
+            });
+        } catch (Exception ex){
+            Log.d("ULAF_ERROR", "in updatePosts() error. Exception: " + ex);
+        }
     }
 
     private static VKRequest CreateRequest(int owner_id){

@@ -1,5 +1,6 @@
 package com.grigorewski.ulafnow;
 
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -14,13 +15,23 @@ public abstract class FeedService {
         listView = lv;
     }
     public static void ReadFromContent(){
-        ArrayList<HashMap<String, Object>> data = ContentService.getData();
+        ContentService.updateData();
+    }
 
+    public static void ReadFromContent(ArrayList<HashMap<String, Object>> data){
+        setAdapter(data);
+    }
+
+    private static void setAdapter(ArrayList<HashMap<String, Object>> data){
         String[] from = {"Text"};
         int[] to = {R.id.list_item_textView};
 
-        SimpleAdapter adapter = new SimpleAdapter(MainActivity.getContext(), data, R.layout.list_item, from, to);
-        listView.setAdapter(adapter);
+        try {
+            SimpleAdapter adapter = new SimpleAdapter(MainActivity.getContext(), data, R.layout.list_item, from, to);
+            listView.setAdapter(adapter);
+        } catch (Exception ex){
+            Log.d("ULAF_ERROR", "in ReadFromContent() error. Exception: " + ex);
+        }
     }
 
 }
