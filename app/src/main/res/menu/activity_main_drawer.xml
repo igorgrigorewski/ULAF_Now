@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_top">
+        <item
+            android:id="@+id/nav_stories"
+            android:icon="@drawable/ic_menu_stories"
+            android:title="Stories"
+            android:checked="true"/>
+        <item
+            android:id="@+id/nav_standings"
+            android:icon="@drawable/ic_menu_standings"
+            android:title="Standings" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_menu_stats"
+            android:title="Stats" />
+        <item
+            android:id="@+id/nav_videos"
+            android:icon="@drawable/ic_menu_videos"
+            android:title="Videos" />
+        <item
+            android:id="@+id/nav_shop"
+            android:icon="@drawable/ic_menu_shop"
+            android:title="ULAF Shop" />
+    </group>
+
+    <group
+        android:checkableBehavior="single"
+        android:id="@+id/menu_bottom">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="Settings"/>
+    </group>
+
+    <!--<item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Settings" />
+        </menu>
+    </item>-->
+
+</menu>

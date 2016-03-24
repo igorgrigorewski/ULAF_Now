@@ -23,11 +23,11 @@ public abstract class FeedService {
     }
 
     private static void setAdapter(ArrayList<HashMap<String, Object>> data){
-        String[] from = {"Text"};
-        int[] to = {R.id.list_item_textView};
+        String[] from = {"groupName", "text"};
+        int[] to = {R.id.list_item_group_name_textView, R.id.list_item_textView};
 
         try {
-            SimpleAdapter adapter = new SimpleAdapter(MainActivity.getContext(), data, R.layout.list_item, from, to);
+            SimpleAdapter adapter = new SimpleAdapter(MainActivityOld.getContext(), data, R.layout.list_item, from, to);
             listView.setAdapter(adapter);
         } catch (Exception ex){
             Log.d("ULAF_ERROR", "in ReadFromContent() error. Exception: " + ex);

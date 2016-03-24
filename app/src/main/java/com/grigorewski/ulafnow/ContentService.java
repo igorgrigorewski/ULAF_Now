@@ -69,25 +69,28 @@ public abstract class ContentService {
                     super.onComplete(responses);
                     for (VKResponse response : responses) {
                         posts.addAll((VKPostArray) response.parsedModel);
-                        posts = SortVkPostArrays(posts, 0, posts.size() - 1);
-                        ArrayList<String> listofTextPosts = new ArrayList<>();
-                        ArrayList<HashMap<String, Object>> data;
-
-                        for (int i = 0; i < posts.size(); i++) {
-                            listofTextPosts.add(posts.get(i).text);
-                        }
-
-                        data = new ArrayList<>(listofTextPosts.size());
-                        HashMap<String, Object> map;
-
-                        for (String str :
-                                listofTextPosts) {
-                            map = new HashMap<>();
-                            map.put("Text", str);
-                            data.add(map);
-                        }
-                        FeedService.ReadFromContent(data);
                     }
+                    posts = SortVkPostArrays(posts, 0, posts.size() - 1);
+                    ArrayList<String> listofTextPosts = new ArrayList<>();
+                    ArrayList<String> listofGroupNames = new ArrayList<String>();
+                    ArrayList<HashMap<String, Object>> data;
+
+                    for (int i = 0; i < posts.size(); i++) {
+                        listofTextPosts.add(posts.get(i).text);
+                        //listofGroupNames.add(posts)
+                    }
+
+                    data = new ArrayList<>(listofTextPosts.size());
+                    HashMap<String, Object> map;
+
+                    for (String str :
+                            listofTextPosts) {
+                        map = new HashMap<>();
+                        map.put("groupName", "groupName");
+                        map.put("text", str);
+                        data.add(map);
+                    }
+                    FeedService.ReadFromContent(data);
                 }
             });
         } catch (Exception ex){
