@@ -9,19 +9,14 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="21sp"
-        android:id="@+id/list_item_group_name_textView"
+        android:id="@+id/stories_list_item_group_name_textView"
         android:gravity="right"
         android:textColor="@android:color/darker_gray"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:id="@+id/list_item_textView"
+        android:id="@+id/stories_list_item_textView"
         android:textColor="@android:color/black"
         android:textSize="21sp"
         android:text=""/>
-    <!--<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/list_item_imageView"
-        android:visibility="gone"/>-->
 </LinearLayout>
