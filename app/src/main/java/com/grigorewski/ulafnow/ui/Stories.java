@@ -5,7 +5,6 @@ import android.content.Loader;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +58,7 @@ public class Stories extends Fragment
             };
 
             int[] to = {
-                    R.id.stories_list_item_group_name_textView,
+                    R.id.stories_list_item_source_textView,
                     R.id.stories_list_item_textView
             };
 
