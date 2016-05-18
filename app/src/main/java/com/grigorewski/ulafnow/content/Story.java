@@ -55,4 +55,14 @@ public class Story {
         this.source = source;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String source) {
+        this.content = content;
+    }
+
+
+
 }

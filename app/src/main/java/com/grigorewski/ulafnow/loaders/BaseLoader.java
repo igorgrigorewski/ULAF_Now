@@ -1,7 +1,8 @@
 package com.grigorewski.ulafnow.loaders;
 
 import android.content.Context;
-import android.content.AsyncTaskLoader;
+import android.support.v4.content.AsyncTaskLoader;
+
 
 import com.grigorewski.ulafnow.api.response.RequestResult;
 import com.grigorewski.ulafnow.api.response.Response;

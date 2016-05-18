@@ -2,7 +2,6 @@ package com.grigorewski.ulafnow.api;
 
 import android.support.annotation.NonNull;
 
-import com.grigorewski.ulafnow.api.StoriesService;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
@@ -29,6 +28,11 @@ public class ApiFactory {
     @NonNull
     public static StoriesService getStoriesService() {
         return getRetrofit().create(StoriesService.class);
+    }
+
+    @NonNull
+    public static StandingsService getStandingsService() {
+        return getRetrofit().create(StandingsService.class);
     }
 
     @NonNull

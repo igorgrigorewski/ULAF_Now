@@ -1,10 +1,11 @@
-package com.grigorewski.ulafnow.ui;
+package com.grigorewski.ulafnow.ui.Stories;
 
-import android.app.LoaderManager;
-import android.content.Loader;
-import android.app.Fragment;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +14,22 @@ import android.widget.SimpleAdapter;
 
 import com.grigorewski.ulafnow.R;
 import com.grigorewski.ulafnow.api.response.Response;
-import com.grigorewski.ulafnow.loaders.StoriesLoader;
 import com.grigorewski.ulafnow.content.Story;
+import com.grigorewski.ulafnow.loaders.StoriesLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Stories extends Fragment
+public class Stories extends ListFragment
         implements LoaderManager.LoaderCallbacks<Response>{
+
+    List<Story> stories;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.stories, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -34,7 +37,6 @@ public class Stories extends Fragment
         super.onCreate(savedInstanceState);
         getLoaderManager().initLoader(R.id.stories_loader, Bundle.EMPTY, this);
     }
-
 
     @Override
     public Loader<Response> onCreateLoader(int id, Bundle args) {
@@ -50,7 +52,7 @@ public class Stories extends Fragment
     public void onLoadFinished(Loader<Response> loader, Response data) {
         int id = loader.getId();
         if (id == R.id.stories_loader) {
-            List<Story> stories = data.getTypedAnswer();
+            stories = data.getTypedAnswer();
 
             String[] from = {
                     "source",
@@ -74,7 +76,7 @@ public class Stories extends Fragment
             SimpleAdapter adapter =
                     new SimpleAdapter(getActivity(), dataMaps, R.layout.stories_list_item, from, to);
 
-            ((ListView) getActivity().findViewById(R.id.stories_list_view)).setAdapter(adapter);
+            setListAdapter(adapter);
         }
         getLoaderManager().destroyLoader(id);
     }
@@ -83,5 +85,22 @@ public class Stories extends Fragment
     public void onLoaderReset(Loader<Response> loader) {
 
     }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("source", stories.get(position).getSource());
+        bundle.putString("title", stories.get(position).getTitle());
+        bundle.putString("content", stories.get(position).getContent());
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_main_container, FullStory.getInstance(bundle))
+                .commit();
+
+    }
+
 
 }
